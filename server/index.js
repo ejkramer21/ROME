@@ -79,28 +79,47 @@ app.post('/Submit', async (req, res) =>{
     
 });
 //for login
+// app.post('/login', async (req, res) => {
+//     const { userUserName, userPassword } = req.body;
+//     const userDoc = await User.findOne({ userUserName: userUserName });
+//     if (userDoc) {
+//       const passOk = bcrypt.compareSync(userPassword, userDoc.userPassword);
+//       if (passOk) {
+//         jwt.sign({
+//             username:userDoc.userUserName, 
+//             id:userDoc._id, 
+//             email:userDoc.userEmail
+//         }, jwtSecret, {}, (err, token) =>{
+//             if(err) throw(err);
+//             res.cookie('token', token).json(userDoc);
+//         });
+
+//       } else {
+//         res.status(422).json('pass not ok');
+//       }
+//     } else {
+//       res.json('not found');
+//     }
+//   });
+
 app.post('/login', async (req, res) => {
     const { userUserName, userPassword } = req.body;
-    const userDoc = await User.findOne({ username: userUserName });
-    if (userDoc) {
-      const passOk = bcrypt.compareSync(userPassword, userDoc.userPassword);
-      if (passOk) {
-        jwt.sign({
-            username:userDoc.userUserName, 
-            id:userDoc._id, 
-            email:userDoc.userEmail
-        }, jwtSecret, {}, (err, token) =>{
-            if(err) throw(err);
-            res.cookie('token', token).json(userDoc);
-        });
-
-      } else {
-        res.status(422).json('pass not ok');
-      }
-    } else {
-      res.json('not found');
+  
+    const user = await User.findOne({ userUserName: userUserName });
+    if (!user) {
+      return res.status(401).send('Invalid username or password');
     }
+  
+    const validPassword = await bcrypt.compare(userPassword, user.userPassword);
+    if (!validPassword) {
+      return res.status(401).send('Invalid username or password');
+    }
+  
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h' });
+    res.cookie('token', token);
+    res.json({ success: true });
   });
+
 
 //for profile
 
@@ -109,16 +128,18 @@ app.get('/profile', async (req, res) => {
     if (token) {
       jwt.verify(token, jwtSecret, {}, async (err, userDecode) => {
         if (err) throw err;
-        const { userUserName, userEmail, _id } = await User.findById(
-          userDecode.id
-        );
-        res.json({ userUserName, userEmail, _id });
+        const user = await User.findById(userDecode.id);
+        if (user) {
+          const { userUserName, userEmail, _id } = user;
+          res.json({ userUserName, userEmail, _id });
+        } else {
+          // Handle the case where the user is not found
+          res.status(404).send('User not found');
+        }
       });
+    } else {
+      res.json(null);
     }
-    else{
-        res.json(null);
-    }
-    //res.json('user profile');
 
 });
 

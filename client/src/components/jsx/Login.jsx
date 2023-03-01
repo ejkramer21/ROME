@@ -13,7 +13,7 @@ export default function () {
     try{
       const {data} = await axios.post('/login', {userUserName, userPassword});
       setUser(data);
-      alert('login succesful. Hi');
+      alert('login succesful. Hi !');
       setRedirect(true);
     } catch (e){
       alert("Login Failed");
