@@ -34,7 +34,7 @@ class CalendarTest extends Component {
    
 
     scheduleEventHour = (hour) => {
-        // alert(this.state.weekLowerBound)
+        alert(this.state.weekLowerBound)
         const newevent = {
             date: hour.date,
             time: hour.time,
@@ -63,7 +63,7 @@ class CalendarTest extends Component {
         }
         this.setState({events : [...this.state.events, ...elapsedEvent]})
 
-        // Once new event is added push
+        //TODO push events list to DB
     }
     
     changeWeekStart = (weekStart) => {
@@ -78,7 +78,10 @@ class CalendarTest extends Component {
         this.setState({ currentDay: new Date(this.state.currentDay.setDate(this.state.currentDay.getDate() + 7)) });
         this.setState({ weekStart: new Date(this.state.weekStart.setDate(this.state.weekStart.getDate() + 7)) });
         if (this.state.weekStart.getDate() === this.state.weekUpperBound.getDate()) {
+            this.setState({weekUpperBound: new Date(this.state.weekUpperBound.setDate(this.state.weekUpperBound.getDate() + 21))});
+            this.setState({weekLowerBound: new Date(this.state.weekLowerBound.setDate(this.state.weekLowerBound.getDate() + 21))});
             // TODO GRAB MORE EVETNS FROM DB BUFFER REACHED
+            
         }
     }
     
@@ -87,6 +90,8 @@ class CalendarTest extends Component {
         this.setState({ weekStart: new Date(this.state.weekStart.setDate(this.state.weekStart.getDate() - 7)) });
         if (this.state.weekStart.getDate() === this.state.weekLowerBound.getDate()) {
             // TODO GRAB MORE EVETNS FROM DB BUFFER REACHED
+            this.setState({weekLowerBound: new Date(this.state.weekLowerBound.setDate(this.state.weekLowerBound.getDate() - 21))})
+            this.setState({weekUpperBound: new Date(this.state.weekUpperBound.setDate(this.state.weekUpperBound.getDate() - 21))})
         }
     }
 
