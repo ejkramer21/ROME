@@ -6,3 +6,4 @@ npm install bcrypt
 npm install cors
 npm install mongoose
 npm install jsonwebstoken
+npm i cookie-parser

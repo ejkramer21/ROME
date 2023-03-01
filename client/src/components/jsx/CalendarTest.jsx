@@ -37,14 +37,11 @@ class CalendarTest extends Component {
         this.setState({events : [...this.state.events, newevent]})
     }
 
-    scheduleEvent = () => {
-        const newElapsedEvent = { //grab from user with pop up 
-            date: new Date(),
-            startTime: 8,
-            endTime: 12,
-            title: "Meeting"
-        };
+    scheduleEvent = (newElapsedEvent) => { //Deal with server communication within this fucntion
         const elapsedEvent = [];
+        if (newElapsedEvent.endTime === 1) {
+            newElapsedEvent.endTime = 25;
+        }
         for (let i = newElapsedEvent.startTime; i < newElapsedEvent.endTime; i++) {
             let topHour = false;
             if (i === newElapsedEvent.startTime) {
@@ -105,11 +102,12 @@ class CalendarTest extends Component {
                             <AddEvent  
                                     trigger={this.state.show}
                                     setTrigger={this.closeform}
+                                    scheduleEvent={this.scheduleEvent}
                                 />     
                             </div>
                         </ Popup>
 
-                        <button type="button" class="btn btn-secondary" onClick={this.scheduleEvent}>Week</button>
+                        <button type="button" class="btn btn-secondary">Week</button>
                         </div>
                     </div>
                     <div class="Calendar-content-body">

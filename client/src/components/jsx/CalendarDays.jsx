@@ -91,8 +91,8 @@ function CalendarDays(props) {
             {
                 currentTimes.map((hour) => {
                 return (
-                    <div className={"calendar-hour" + (hour.selected ? " scheduled" : "")}
-                        onClick= {() => props.scheduleEventHour(hour)}>
+                    <div className={"calendar-hour" + (hour.selected ? " scheduled" : "")}>
+                        {/* onClick= {() => props.scheduleEventHour(hour)}> */}
                         <p>{hour.selected && hour.top ? hour.name : ""}</p>
                     </div>
                 )

@@ -16,9 +16,22 @@ const AddEvent = (props) => {
 
     function handleEventSubmit (e) {
         e.preventDefault();
-        alert(eventTitle)
+        const newElapsedEvent = { //grab from user with pop up 
+            date: new Date(eventDate),
+            startTime: parseInt(eventStartTime.substring(0,2)),
+            endTime: parseInt(eventEndTime.substring(0,2)),
+            title: eventTitle,
+            description: eventDescription
+        };
+        newElapsedEvent.date.setDate(newElapsedEvent.date.getDate() + 1);
+        if (newElapsedEvent.startTime > newElapsedEvent.endTime) {
+            alert("Enter Valid Times");
+        } else {
+            props.scheduleEvent(newElapsedEvent);
+            props.setTrigger();
+        }
     }
-    async function handleSubmit(e) {
+    async function handlSubmit(e) {
         e.preventDefault();
         try{
             await axios.post('/Submit', {
@@ -41,7 +54,7 @@ const AddEvent = (props) => {
         <div class="formPopup" id="popupForm">
             
         <h2>Add Team events</h2>
-        <form onSubmit={handleEventSubmit}>
+        <form autoComplete="off" onSubmit={handleEventSubmit}>
         <div class="row mt-3">
             <div class="col-sm-3">
                <strong>Title</strong>

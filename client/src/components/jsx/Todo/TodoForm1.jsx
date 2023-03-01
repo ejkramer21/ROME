@@ -57,6 +57,7 @@ export function TodoForm(props) {
 
     return (props.trigger) ? (
             <form 
+                autoComplete='off'
                 className='todo-form'
                 onSubmit={handleSubmit}   
             >
