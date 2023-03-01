@@ -20,7 +20,7 @@ import DefaultLayout from './components/jsx/DefaultLayout';
 import axios from 'axios';
 import AddEvent from './components/jsx/AddEvent';
 import { useState } from 'react';
-
+import PrivateRoute from './PrivateRoute';
 import TeamHome from './components/jsx/TeamHome';
 import { UserContextProvider } from './components/jsx/UserContext';
 
@@ -52,6 +52,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
+              
           </Route>
           <Route path="/" element={<DefaultLayout />}>
             <Route path="/profile" element={<Profile />} />
@@ -63,9 +64,6 @@ function App() {
             <Route path='/team/:teamID' element={<TeamHome />}/>
 
           </Route>
-
-
-
         </Routes>
         </UserContextProvider>
       </BrowserRouter>
