@@ -20,7 +20,9 @@ import DefaultLayout from './components/jsx/DefaultLayout';
 import axios from 'axios';
 import AddEvent from './components/jsx/AddEvent';
 import { useState } from 'react';
+
 import TeamHome from './components/jsx/TeamHome';
+import { UserContextProvider } from './components/jsx/UserContext';
 
 
 
@@ -32,7 +34,8 @@ axios.defaults.withCredentials = true;
 
 
 function App() {
-  const [show,setShow] = useState(false)
+
+  const [show,setShow] = useState(false);
   return (
     <div className="App">
       {/* <TodoList /> */}
@@ -41,6 +44,7 @@ function App() {
       
       { /* Used to route thorugh pages add any adition pages here} */ }
       <BrowserRouter>
+      <UserContextProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Welcome />} />
@@ -63,6 +67,7 @@ function App() {
 
 
         </Routes>
+        </UserContextProvider>
       </BrowserRouter>
 
       {/* <Todo /> */}

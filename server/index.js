@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User.js');
 const Team = require('./models/Team.js');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const port = process.env.PORT || 8000;
@@ -17,6 +18,8 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "2326a84bd9f67c9b9cb44a25c4e9a988";
 
 app.use(express.json());
+app.use(cookieParser());
+
  app.use(cors({credentials: true, 
      origin: 'http://localhost:3000',
 }));
@@ -82,18 +85,42 @@ app.post('/login', async (req, res) => {
     if (userDoc) {
       const passOk = bcrypt.compareSync(userPassword, userDoc.userPassword);
       if (passOk) {
-        jwt.sign({username:userDoc.userUserName, id:userDoc._id}, jwtSecret, {}, (err, token) =>{
+        jwt.sign({
+            username:userDoc.userUserName, 
+            id:userDoc._id, 
+            email:userDoc.userEmail
+        }, jwtSecret, {}, (err, token) =>{
             if(err) throw(err);
-            res.cookie('token', token).json('password ok');
+            res.cookie('token', token).json(userDoc);
         });
 
       } else {
-        res.status(422).json('password not ok');
+        res.status(422).json('pass not ok');
       }
     } else {
-      res.json('User not found');
+      res.json('not found');
     }
   });
+
+//for profile
+
+app.get('/profile', async (req, res) => {
+    const token = req.cookies.token; // Get the JWT from the 'token' cookie
+    if (token) {
+      jwt.verify(token, jwtSecret, {}, async (err, userDecode) => {
+        if (err) throw err;
+        const { userUserName, userEmail, _id } = await User.findById(
+          userDecode.id
+        );
+        res.json({ userUserName, userEmail, _id });
+      });
+    }
+    else{
+        res.json(null);
+    }
+    //res.json('user profile');
+
+});
 
 
 //middleware

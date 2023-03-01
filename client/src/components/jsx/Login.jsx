@@ -1,5 +1,5 @@
-import React from "react"
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "./UserContext";
 import axios from "axios";
 import '../css/Login.css';
 import { Navigate } from "react-router-dom";
@@ -7,11 +7,13 @@ export default function () {
   const [userUserName,setUserUserName] = useState("");
   const [userPassword,setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  async function HandleSubmit (e) { 
+  const{setUser} = useContext(UserContext);
+  async function HandleSubmit (e) {   
     e.preventDefault();
     try{
-      await axios.post('/login', {userUserName, userPassword});
-      alert(`login succesful. Hi ${userUserName}!`);
+      const {data} = await axios.post('/login', {userUserName, userPassword});
+      setUser(data);
+      alert('login succesful. Hi');
       setRedirect(true);
     } catch (e){
       alert("Login Failed");
