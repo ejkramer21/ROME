@@ -1,26 +1,48 @@
 import TodoList from "./Todo/TodoList"
 import "../css/TeamHome.css"
-
-
+import Popup from "reactjs-popup"
+import UpdateTask from "./UpdateTask"
+import AddEvent from "./AddEvent"
+import { useState } from "react"
 function TeamHome() {
+    const [show, setButtonPop] = useState(false);
+
+    const closeform = () => {
+        setButtonPop(false);
+    }
+
+    const openform = () => {
+        setButtonPop(true);
+    }
     return (
         <div >
         <div class="todobefore"> 
             <div className="top bg-primary">
                 todo1
             </div>
-
+            
+            <Popup class="updatetask" trigger={<button type="button" class="btn btn-secondary"> {'>'} </button>} open={show}
+                        onOpen={openform} position="right center" nested modal>
+                            <div class="card">
+                            <UpdateTask
+                                    trigger={show}
+                                    setTrigger={closeform}
+                                />     
+                            </div>
+            </ Popup>
         </div> 
         <div class="todoprogress"> 
             <div className="top bg-primary">
                 todo2
             </div>
 
+
         </div> 
         <div class="todocomplete"> 
             <div className="top bg-primary">
                 todo3
             </div>
+
 
         </div> 
         <div class="members">
