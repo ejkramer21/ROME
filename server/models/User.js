@@ -3,9 +3,25 @@ const {Schema} = mongoose;
 
 const UserSchema = new Schema({
     userFullname: String,
-    userEmail: {type:String, unique:true},
-    userUserName:String,
-    userPassword: String,
+    userFullName: {
+        type: String,
+        required: true,
+        unique: true // Ensure that each username is unique
+      },
+    userUserName: {
+        type: String,
+        required: true,
+        unique: true // Ensure that each username is unique
+      },
+      userPassword: {
+        type: String,
+        required: true
+      },
+      userEmail: {
+        type: String,
+        required: true,
+        unique: true // Ensure that each email is unique
+      }
 });
 
 const UserModel = mongoose.model('User', UserSchema);
