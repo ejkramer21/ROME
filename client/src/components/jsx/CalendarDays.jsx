@@ -64,7 +64,9 @@ function CalendarDays(props) {
             date: (new Date(firstDayOfWeek))
         }
         for (let j = 0; j < props.events.length; j++) {
-            if (props.events[j].time === hour.time && props.events[j].date.getDate() === hour.date.getDate()) {
+            if (props.events[j].time === hour.time && props.events[j].date.getDate() === hour.date.getDate() &&
+                props.events[j].date.getMonth() === hour.date.getMonth() && 
+                props.events[j].date.getFullYear() === hour.date.getFullYear()) {
                 hour.selected = true;
                 if (props.events[j].top) {
                     hour.top = true;
@@ -82,7 +84,7 @@ function CalendarDays(props) {
                 return (
                     <div className={"calendar-day" + (day.currentMonth ? " current" : "") + 
                             (day.selected && day.date.getDate() === new Date().getDate() ? " selected" : "")}>
-                             {/* onClick={() => props.changeCurrentDay(day)}> */}
+                              {/* onClick={() => props.changeCurrentDay(day)}> */}
                         <p>{day.number}</p>
                     </div>
                 )

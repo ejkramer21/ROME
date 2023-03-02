@@ -52,7 +52,6 @@ const AddEvent = (props) => {
 <>
     <div class="loginpopup">
         <div class="formPopup" id="popupForm">
-            
         <h2>Add Team events</h2>
         <form autoComplete="off" onSubmit={handleEventSubmit}>
         <div class="row mt-3">
