@@ -149,6 +149,6 @@ app.get('/profile', async (req, res) => {
 
 
 //listener
-const server = app.listen(port, ()=>console.log(`Server is running on ${port}`))
+const server = app.listen(port, ()=>console.log(`Server is running on ${port}`));
 
 //routes (Note to Team: Requires extra installation from react-router-dom)

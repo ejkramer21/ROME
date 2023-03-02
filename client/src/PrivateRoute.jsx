@@ -1,11 +1,19 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import { UserContext } from './components/jsx/UserContext';
+import React from "react";
+import { Route, Navigate } from "react-router-dom";
 
-function PrivateRoute({ element: Component, ...rest }) {
-  const { user } = UserContext();
+function PrivateRoute({ element: Element, ...rest }) {
+  const isAuthenticated = true;
   return (
-    <Route {...rest} element={user ? <Component /> : <Navigate to="/login" />} />
+    <Route
+      {...rest}
+      render={(props) =>
+        isAuthenticated ? (
+          <Element {...props} />
+        ) : (
+          <Navigate to="/login" replace />
+        )
+      }
+    />
   );
 }
 

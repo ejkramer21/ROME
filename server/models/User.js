@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const UserSchema = new Schema({
-    userFullname: String,
     userFullName: {
         type: String,
-        required: true,
-        unique: true // Ensure that each username is unique
+        required: false,
+        unique: false // Ensure that each username is unique
       },
     userUserName: {
         type: String,
         required: true,
-        unique: true // Ensure that each username is unique
+        unique: false // Ensure that each username is unique
       },
       userPassword: {
         type: String,
-        required: true
+        required: true,
+
       },
       userEmail: {
         type: String,
         required: true,
-        unique: true // Ensure that each email is unique
+        unique: false // Ensure that each email is unique
       }
 });
 
